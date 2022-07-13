@@ -1,0 +1,12 @@
+
+FROM golang:alpine AS builder
+
+WORKDIR /go/app
+COPY app.go .
+COPY go.mod .
+RUN go build -o /go/app
+
+FROM scratch
+WORKDIR /app
+COPY --from=builder /go/app .
+CMD ["/app/app"]
